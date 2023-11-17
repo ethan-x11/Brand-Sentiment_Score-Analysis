@@ -1,6 +1,6 @@
 import os
 import csv
-import datetime
+from datetime import datetime
 import time
 import pandas as pd
 from analyzer import tweet_analysis, yt_analysis
@@ -11,7 +11,7 @@ def create_profile(name, yt_username="", twitter_keyword=""):
     if not os.path.exists('./data/score'):
         os.makedirs('./data/score')
     scorefile_path = f'./data/score/{name}.csv'
-    datetoday = datetime.datetime.now().strftime("%d-%m-%Y")
+    datetoday = datetime.now().strftime("%d-%m-%Y")
     if not os.path.exists(scorefile_path):
         # Create the file and write the header row
         with open(scorefile_path, 'w', newline='') as file:
@@ -51,7 +51,7 @@ def generate_score(scorefile_path, name):
     print(yt_data)
 
 
-    score = score_csv[score_csv['name'] == name]['score'][0]
+    score = score_csv[score_csv['name'] == name]['score'].iloc[-1]
     
     if twitter_status:
             
@@ -102,7 +102,7 @@ def generate_score(scorefile_path, name):
     results['yt_status'] = yt_status
     
     last_row = score_csv.iloc[-1].copy()
-    datetoday = datetime.datetime.now().strftime("%d-%m-%Y")
+    datetoday = datetime.now().strftime("%d-%m-%Y")
     last_row['date'] = datetoday
     last_row['score'] = score
     last_row['twitter_status'] = twitter_status
@@ -124,7 +124,9 @@ def generate_score(scorefile_path, name):
         last_row['yt_sub'] = 0
         last_row['yt_views'] = 0
     
-    # last_row['positive_impact'] = 
+    last_row['positive_impact'] = results['positive_impact']
+    last_row['negative_impact'] = results['negative_impact']
+    
     score_csv = score_csv._append(last_row, ignore_index=True)
     score_csv.to_csv(scorefile_path, index=False)
         

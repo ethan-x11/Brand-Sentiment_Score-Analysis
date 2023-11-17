@@ -3,7 +3,7 @@ import pandas as pd
 from dotenv import load_dotenv
 import os
 import time
-import datetime
+from datetime import datetime
 
 def fetch_tweets(query):
     load_dotenv()
@@ -12,7 +12,7 @@ def fetch_tweets(query):
     payload = {
         'api_key': {os.getenv('SCRAPERAPI_API_KEY')},
         'query': {query},
-        'num': '25'
+        'num': '100'
     }
     
     try:
@@ -33,7 +33,7 @@ def fetch_tweets(query):
             })
 
         df = pd.DataFrame(twitter_data)
-        datetoday = datetime.datetime.now().strftime("%Y-%m-%d")
+        datetoday = datetime.now().strftime("%Y-%m-%d")
         query = query.replace(" ", "_").lower()
         if not os.path.exists('./data/tweets'):
             os.makedirs('./data/tweets')

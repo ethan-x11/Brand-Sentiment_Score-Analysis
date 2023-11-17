@@ -2,7 +2,7 @@ import requests
 import os
 import json
 from dotenv import load_dotenv
-import datetime 
+from datetime import datetime 
 import time
 
 class YTstats:
@@ -39,7 +39,7 @@ class YTstats:
         # generate a json file with all the statistics data of the youtube channel
         if not os.path.exists('./data/ytdata'):
             os.makedirs('./data/ytdata')
-        datetoday = datetime.datetime.now().strftime("%Y-%m-%d")
+        datetoday = datetime.now().strftime("%Y-%m-%d")
         file_path = f'./data/ytdata/{channel_title}_{datetoday}.json'
         with open(file_path, 'w') as f:
             json.dump(self.channel_statistics, f)
