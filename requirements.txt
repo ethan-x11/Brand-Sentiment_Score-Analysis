@@ -1,0 +1,8 @@
+requests
+pandas
+python-dotenv
+# tensorflow
+torch
+torchvision
+torchaudio
+transformers
