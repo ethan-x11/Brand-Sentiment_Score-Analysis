@@ -6,7 +6,7 @@ import pandas as pd
 from analyzer import tweet_analysis, yt_analysis
 
 
-def create_profile(name, yt_username="", twitter_keyword=""):
+def create_profile(name, email="", yt_username="", twitter_keyword=""):
     # Check if the file exists
     if not os.path.exists('./data/score'):
         os.makedirs('./data/score')
@@ -16,8 +16,8 @@ def create_profile(name, yt_username="", twitter_keyword=""):
         # Create the file and write the header row
         with open(scorefile_path, 'w', newline='') as file:
             writer = csv.writer(file)
-            writer.writerow(['date', 'name', 'yt_username', 'twitter_keyword', 'score', 'twitter_status', 'tweet_pos_score', 'tweet_neg_score','yt_status',  'yt_sub', 'yt_views','positive_impact','negative_impact'])
-            writer.writerow([datetoday, name, yt_username, twitter_keyword, 10, '', 0, 0, '', 0, 0, '', ''])
+            writer.writerow(['date', 'name', 'email', 'yt_username', 'twitter_keyword', 'score', 'twitter_status', 'tweet_pos_score', 'tweet_neg_score','yt_status',  'yt_sub', 'yt_views','positive_impact','negative_impact'])
+            writer.writerow([datetoday, name, email ,yt_username, twitter_keyword, 10, '', 0, 0, '', 0, 0, '', ''])
         return scorefile_path
     else:
         return scorefile_path
@@ -133,7 +133,7 @@ def generate_score(scorefile_path, name):
     # print(results)
     return results
 
-def pipeline(name, yt_username = "", twitter_keyword = ""):
+def pipeline(name, email = "", yt_username = "", twitter_keyword = ""):
     # name = input('Name: ').lower()
     name = name.lower()
     yt_username = yt_username.lower()
@@ -143,7 +143,7 @@ def pipeline(name, yt_username = "", twitter_keyword = ""):
     if not os.path.exists(scorefile_path):
         # yt_username = input('Youtube Username: ').lower()
         # twitter_keyword = input('Twitter Keyword: ').lower()
-        create_profile(name, yt_username, twitter_keyword)
+        create_profile(name, email, yt_username, twitter_keyword)
     else:
         print("File already exists")
     res = generate_score(scorefile_path, name)
@@ -156,8 +156,9 @@ if __name__ == '__main__':
     name = input('Name: ')
     scorefile_path = f'./data/score/{name}.csv'
     if not os.path.exists(scorefile_path):
+        email = input('Email ID: ')
         yt_username = input('Youtube Username: ')
         twitter_keyword = input('Twitter Keyword: ')
-        print(pipeline(name, yt_username, twitter_keyword))
+        print(pipeline(name,email, yt_username, twitter_keyword))
     else:
         print(pipeline(name))
